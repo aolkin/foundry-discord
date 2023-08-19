@@ -23,14 +23,14 @@ import {
     GuildLeaveHandler,
     MessageHandler,
     ReactionHandler,
-} from '../events/index.js';
-import { JobService, Logger } from '../services/index.js';
-import { PartialUtils } from '../utils/index.js';
+} from '../events';
+import { JobService, Logger } from '../services';
+import { PartialUtils } from '../utils';
 
 const require = createRequire(import.meta.url);
-let Config = require('../../config/config.json');
-let Debug = require('../../config/debug.json');
-let Logs = require('../../lang/logs.json');
+const Config = require('../../config/config.json');
+const Debug = require('../../config/debug.json');
+const Logs = require('../../lang/logs.json');
 
 export class Bot {
     private ready = false;
@@ -81,7 +81,7 @@ export class Bot {
     }
 
     private async onReady(): Promise<void> {
-        let userTag = this.client.user?.tag;
+        const userTag = this.client.user?.tag;
         Logger.info(Logs.info.clientLogin.replaceAll('{USER_TAG}', userTag));
 
         if (!Debug.dummyMode.enabled) {

@@ -3,7 +3,7 @@ import { Linguini, TypeMapper, TypeMappers, Utils } from 'linguini';
 import path, { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { Language } from '../models/enum-helpers/index.js';
+import { Language } from '../models/enum-helpers';
 
 export class Lang {
     private static linguini = new Linguini(
@@ -44,8 +44,8 @@ export class Lang {
         location: string,
         variables?: { [name: string]: string }
     ): LocalizationMap {
-        let obj = {};
-        for (let langCode of Language.Enabled) {
+        const obj = {};
+        for (const langCode of Language.Enabled) {
             obj[langCode] = this.getRef(location, langCode, variables);
         }
         return obj;

@@ -6,9 +6,9 @@ import {
     RESTPostAPIContextMenuApplicationCommandsJSONBody,
 } from 'discord.js';
 
-import { Args } from './index.js';
-import { Language } from '../models/enum-helpers/index.js';
-import { Lang } from '../services/index.js';
+import { Args } from '.';
+import { Language } from '../models/enum-helpers';
+import { Lang } from '../services';
 
 export const ChatCommandMetadata: {
     [command: string]: RESTPostAPIChatInputApplicationCommandsJSONBody;

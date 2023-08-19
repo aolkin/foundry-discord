@@ -3,20 +3,20 @@ import { Request, Response, Router } from 'express';
 import router from 'express-promise-router';
 import { createRequire } from 'node:module';
 
-import { Controller } from './index.js';
-import { CustomClient } from '../extensions/index.js';
-import { mapClass } from '../middleware/index.js';
+import { Controller } from '.';
+import { CustomClient } from '../extensions';
+import { mapClass } from '../middleware';
 import {
     GetShardsResponse,
     SetShardPresencesRequest,
     ShardInfo,
     ShardStats,
-} from '../models/cluster-api/index.js';
-import { Logger } from '../services/index.js';
+} from '../models/cluster-api';
+import { Logger } from '../services';
 
 const require = createRequire(import.meta.url);
-let Config = require('../../config/config.json');
-let Logs = require('../../lang/logs.json');
+const Config = require('../../config/config.json');
+const Logs = require('../../lang/logs.json');
 
 export class ShardsController implements Controller {
     public path = '/shards';
@@ -33,16 +33,16 @@ export class ShardsController implements Controller {
     }
 
     private async getShards(req: Request, res: Response): Promise<void> {
-        let shardDatas = await Promise.all(
+        const shardDatas = await Promise.all(
             this.shardManager.shards.map(async shard => {
-                let shardInfo: ShardInfo = {
+                const shardInfo: ShardInfo = {
                     id: shard.id,
                     ready: shard.ready,
                     error: false,
                 };
 
                 try {
-                    let uptime = (await shard.fetchClientValue('uptime')) as number;
+                    const uptime = (await shard.fetchClientValue('uptime')) as number;
                     shardInfo.uptimeSecs = Math.floor(uptime / 1000);
                 } catch (error) {
                     Logger.error(Logs.error.managerShardInfo, error);
@@ -53,12 +53,12 @@ export class ShardsController implements Controller {
             })
         );
 
-        let stats: ShardStats = {
+        const stats: ShardStats = {
             shardCount: this.shardManager.shards.size,
             uptimeSecs: Math.floor(process.uptime()),
         };
 
-        let resBody: GetShardsResponse = {
+        const resBody: GetShardsResponse = {
             shards: shardDatas,
             stats,
         };
@@ -66,7 +66,7 @@ export class ShardsController implements Controller {
     }
 
     private async setShardPresences(req: Request, res: Response): Promise<void> {
-        let reqBody: SetShardPresencesRequest = res.locals.input;
+        const reqBody: SetShardPresencesRequest = res.locals.input;
 
         await this.shardManager.broadcastEval(
             (client: CustomClient, context) => {

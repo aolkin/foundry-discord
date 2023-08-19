@@ -30,7 +30,7 @@ export class MessageUtils {
         content: string | EmbedBuilder | BaseMessageOptions
     ): Promise<Message> {
         try {
-            let options: BaseMessageOptions =
+            const options: BaseMessageOptions =
                 typeof content === 'string'
                     ? { content }
                     : content instanceof EmbedBuilder
@@ -55,7 +55,7 @@ export class MessageUtils {
         content: string | EmbedBuilder | BaseMessageOptions
     ): Promise<Message> {
         try {
-            let options: BaseMessageOptions =
+            const options: BaseMessageOptions =
                 typeof content === 'string'
                     ? { content }
                     : content instanceof EmbedBuilder
@@ -80,7 +80,7 @@ export class MessageUtils {
         content: string | EmbedBuilder | MessageEditOptions
     ): Promise<Message> {
         try {
-            let options: MessageEditOptions =
+            const options: MessageEditOptions =
                 typeof content === 'string'
                     ? { content }
                     : content instanceof EmbedBuilder

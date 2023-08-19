@@ -1,13 +1,13 @@
 import { Guild } from 'discord.js';
 import { createRequire } from 'node:module';
 
-import { EventHandler } from './index.js';
-import { Language } from '../models/enum-helpers/index.js';
-import { EventDataService, Lang, Logger } from '../services/index.js';
-import { ClientUtils, FormatUtils, MessageUtils } from '../utils/index.js';
+import { EventHandler } from '.';
+import { Language } from '../models/enum-helpers';
+import { EventDataService, Lang, Logger } from '../services';
+import { ClientUtils, FormatUtils, MessageUtils } from '../utils';
 
 const require = createRequire(import.meta.url);
-let Logs = require('../../lang/logs.json');
+const Logs = require('../../lang/logs.json');
 
 export class GuildJoinHandler implements EventHandler {
     constructor(private eventDataService: EventDataService) {}
@@ -19,16 +19,16 @@ export class GuildJoinHandler implements EventHandler {
                 .replaceAll('{GUILD_ID}', guild.id)
         );
 
-        let owner = await guild.fetchOwner();
+        const owner = await guild.fetchOwner();
 
         // Get data from database
-        let data = await this.eventDataService.create({
+        const data = await this.eventDataService.create({
             user: owner?.user,
             guild,
         });
 
         // Send welcome message to the server's notify channel
-        let notifyChannel = await ClientUtils.findNotifyChannel(guild, data.langGuild);
+        const notifyChannel = await ClientUtils.findNotifyChannel(guild, data.langGuild);
         if (notifyChannel) {
             await MessageUtils.send(
                 notifyChannel,

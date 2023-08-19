@@ -71,7 +71,7 @@ export class InteractionUtils {
         hidden: boolean = false
     ): Promise<Message> {
         try {
-            let options: InteractionReplyOptions =
+            const options: InteractionReplyOptions =
                 typeof content === 'string'
                     ? { content }
                     : content instanceof EmbedBuilder
@@ -126,7 +126,7 @@ export class InteractionUtils {
         content: string | EmbedBuilder | WebhookMessageEditOptions
     ): Promise<Message> {
         try {
-            let options: WebhookMessageEditOptions =
+            const options: WebhookMessageEditOptions =
                 typeof content === 'string'
                     ? { content }
                     : content instanceof EmbedBuilder
@@ -151,7 +151,7 @@ export class InteractionUtils {
         content: string | EmbedBuilder | InteractionUpdateOptions
     ): Promise<Message> {
         try {
-            let options: InteractionUpdateOptions =
+            const options: InteractionUpdateOptions =
                 typeof content === 'string'
                     ? { content }
                     : content instanceof EmbedBuilder

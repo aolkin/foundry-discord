@@ -51,7 +51,6 @@
                 "propertyDeclaration": true
             }
         ],
-        "import/extensions": ["error", "ignorePackages"],
         "import/no-extraneous-dependencies": "error",
         "import/no-unresolved": "off",
         "import/no-useless-path-segments": "error",
@@ -71,7 +70,6 @@
         ],
         "no-return-await": "off",
         "no-unused-vars": "off",
-        "prefer-const": "off",
         "quotes": [
             "error",
             "single",
