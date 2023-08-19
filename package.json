@@ -1,8 +1,8 @@
 {
-    "name": "my-bot",
+    "name": "discord-foundry",
     "version": "1.0.0",
-    "author": "Kevin Novak",
-    "description": "A discord.js bot template written with TypeScript",
+    "author": "Aaron Olkin",
+    "description": "A discord.js bot for read-only interactions with a Foundry server",
     "license": "MIT",
     "private": true,
     "engines": {

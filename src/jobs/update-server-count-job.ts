@@ -21,7 +21,10 @@ export class UpdateServerCountJob extends Job {
 
     private botSites: BotSite[];
 
-    constructor(private shardManager: ShardingManager, private httpService: HttpService) {
+    constructor(
+        private shardManager: ShardingManager,
+        private httpService: HttpService
+    ) {
         super();
         this.botSites = BotSites.filter(botSite => botSite.enabled);
     }
