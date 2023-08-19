@@ -2,16 +2,16 @@ import { REST } from '@discordjs/rest';
 import { Options, Partials } from 'discord.js';
 import { createRequire } from 'node:module';
 
-import { Button } from './buttons';
+import { Button } from './buttons/index.js';
+import { DevCommand, HelpCommand, InfoCommand, TestCommand } from './commands/chat/index.js';
 import {
     ChatCommandMetadata,
     Command,
     MessageCommandMetadata,
     UserCommandMetadata,
-} from './commands';
-import { DevCommand, HelpCommand, InfoCommand, TestCommand } from './commands/chat';
-import { ViewDateSent } from './commands/message';
-import { ViewDateJoined } from './commands/user';
+} from './commands/index.js';
+import { ViewDateSent } from './commands/message/index.js';
+import { ViewDateJoined } from './commands/user/index.js';
 import {
     ButtonHandler,
     CommandHandler,
@@ -20,13 +20,18 @@ import {
     MessageHandler,
     ReactionHandler,
     TriggerHandler,
-} from './events';
-import { CustomClient } from './extensions';
-import { Job } from './jobs';
+} from './events/index.js';
+import { CustomClient } from './extensions/index.js';
+import { Job } from './jobs/index.js';
 import { Bot } from './models/bot.js';
-import { Reaction } from './reactions';
-import { CommandRegistrationService, EventDataService, JobService, Logger } from './services';
-import { Trigger } from './triggers';
+import { Reaction } from './reactions/index.js';
+import {
+    CommandRegistrationService,
+    EventDataService,
+    JobService,
+    Logger,
+} from './services/index.js';
+import { Trigger } from './triggers/index.js';
 
 const require = createRequire(import.meta.url);
 const Config = require('../config/config.json');

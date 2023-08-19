@@ -9,12 +9,12 @@ import {
 import { RateLimiter } from 'discord.js-rate-limiter';
 import { createRequire } from 'node:module';
 
-import { EventHandler } from '.';
-import { Command, CommandDeferType } from '../commands';
-import { DiscordLimits } from '../constants';
+import { EventHandler } from './index.js';
+import { Command, CommandDeferType } from '../commands/index.js';
+import { DiscordLimits } from '../constants/index.js';
 import { EventData } from '../models/internal-models.js';
-import { EventDataService, Lang, Logger } from '../services';
-import { CommandUtils, InteractionUtils } from '../utils';
+import { EventDataService, Lang, Logger } from '../services/index.js';
+import { CommandUtils, InteractionUtils } from '../utils/index.js';
 
 const require = createRequire(import.meta.url);
 const Config = require('../../config/config.json');

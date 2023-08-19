@@ -2,9 +2,9 @@ import express, { Express } from 'express';
 import { createRequire } from 'node:module';
 import util from 'node:util';
 
-import { Controller } from '../controllers';
-import { checkAuth, handleError } from '../middleware';
-import { Logger } from '../services';
+import { Controller } from '../controllers/index.js';
+import { checkAuth, handleError } from '../middleware/index.js';
+import { Logger } from '../services/index.js';
 
 const require = createRequire(import.meta.url);
 const Config = require('../../config/config.json');

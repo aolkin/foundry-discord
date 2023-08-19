@@ -1,8 +1,8 @@
 import { Guild } from 'discord.js';
 import { createRequire } from 'node:module';
 
-import { EventHandler } from '.';
-import { Logger } from '../services';
+import { EventHandler } from './index.js';
+import { Logger } from '../services/index.js';
 
 const require = createRequire(import.meta.url);
 const Logs = require('../../lang/logs.json');

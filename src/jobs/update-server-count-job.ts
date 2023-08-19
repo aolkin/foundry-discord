@@ -1,11 +1,11 @@
 import { ActivityType, ShardingManager } from 'discord.js';
 import { createRequire } from 'node:module';
 
-import { Job } from '.';
-import { CustomClient } from '../extensions';
+import { Job } from './index.js';
+import { CustomClient } from '../extensions/index.js';
 import { BotSite } from '../models/config-models.js';
-import { HttpService, Lang, Logger } from '../services';
-import { ShardUtils } from '../utils';
+import { HttpService, Lang, Logger } from '../services/index.js';
+import { ShardUtils } from '../utils/index.js';
 
 const require = createRequire(import.meta.url);
 const BotSites: BotSite[] = require('../../config/bot-sites.json');
@@ -38,7 +38,11 @@ export class UpdateServerCountJob extends Job {
 
         await this.shardManager.broadcastEval(
             (client: CustomClient, context) => {
-                return client.setPresence(context.type, context.name, context.url);
+                if (context.type === ActivityType.Custom) {
+                    Logger.error('Unexpected activityType in broadcastEval');
+                } else {
+                    return client.setPresence(context.type, context.name, context.url);
+                }
             },
             { context: { type, name, url } }
         );

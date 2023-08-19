@@ -3,8 +3,8 @@ import { DateTime } from 'luxon';
 import schedule from 'node-schedule';
 import { createRequire } from 'node:module';
 
-import { Logger } from '.';
-import { Job } from '../jobs';
+import { Logger } from './index.js';
+import { Job } from '../jobs/index.js';
 
 const require = createRequire(import.meta.url);
 const Logs = require('../../lang/logs.json');

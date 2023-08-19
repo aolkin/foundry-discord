@@ -2,8 +2,8 @@ import { Message } from 'discord.js';
 import { RateLimiter } from 'discord.js-rate-limiter';
 import { createRequire } from 'node:module';
 
-import { EventDataService } from '../services';
-import { Trigger } from '../triggers';
+import { EventDataService } from '../services/index.js';
+import { Trigger } from '../triggers/index.js';
 
 const require = createRequire(import.meta.url);
 const Config = require('../../config/config.json');

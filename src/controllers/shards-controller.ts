@@ -3,16 +3,16 @@ import { Request, Response, Router } from 'express';
 import router from 'express-promise-router';
 import { createRequire } from 'node:module';
 
-import { Controller } from '.';
-import { CustomClient } from '../extensions';
-import { mapClass } from '../middleware';
+import { Controller } from './index.js';
+import { CustomClient } from '../extensions/index.js';
+import { mapClass } from '../middleware/index.js';
 import {
     GetShardsResponse,
     SetShardPresencesRequest,
     ShardInfo,
     ShardStats,
-} from '../models/cluster-api';
-import { Logger } from '../services';
+} from '../models/cluster-api/index.js';
+import { Logger } from '../services/index.js';
 
 const require = createRequire(import.meta.url);
 const Config = require('../../config/config.json');

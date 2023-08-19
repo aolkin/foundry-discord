@@ -15,8 +15,8 @@ import {
     VoiceChannel,
 } from 'discord.js';
 
-import { PermissionUtils, RegexUtils } from '.';
-import { Lang } from '../services';
+import { PermissionUtils, RegexUtils } from './index.js';
+import { Lang } from '../services/index.js';
 
 const FETCH_MEMBER_LIMIT = 20;
 const IGNORED_ERRORS = [

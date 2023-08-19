@@ -1,6 +1,6 @@
 import { Locale, PermissionsString } from 'discord.js';
 
-import { Lang } from '../../services';
+import { Lang } from '../../services/index.js';
 
 interface PermissionData {
     displayName(langCode: Locale): string;
