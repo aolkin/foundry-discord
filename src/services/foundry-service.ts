@@ -1,10 +1,11 @@
-import { Resvg } from '@resvg/resvg-js'
-import * as crypto from 'crypto';
-import * as path from 'path';
-import * as fsutils from 'fs';
-import { promises as fs } from 'fs';
+import { Resvg } from '@resvg/resvg-js';
 import _ from 'lodash';
+import * as crypto from 'node:crypto';
+import * as fsutils from 'node:fs';
+import { promises as fs } from 'node:fs';
 import { createRequire } from 'node:module';
+import * as path from 'node:path';
+
 import { Logger } from './logger.js';
 
 const require = createRequire(import.meta.url);
@@ -13,8 +14,7 @@ const Config = require('../../config/config.json');
 export interface FoundryConfig {
     readonly baseUrl: string;
     readonly basePath: string;
-    readonly actors: string;
-    readonly owners: Record<string, string>; // Discord ID -> Actor ID
+    readonly worldData: string;
 }
 
 interface FoundryStats {
@@ -39,11 +39,14 @@ class Roll {
 
     toString(): string {
         const modifiers = _.map(this.modififers, (value, desc) => `${value} (${desc})`);
-        return this.dice.map(die => `<${die}>`).concat(modifiers).join(' + ');
+        return this.dice
+            .map(die => `<${die}>`)
+            .concat(modifiers)
+            .join(' + ');
     }
 
     static rollDice(size: number, quantity?: number): number[] {
-        const rolls = _.range(quantity ?? 1).map(i => crypto.randomInt(size));
+        const rolls = _.range(quantity ?? 1).map(() => crypto.randomInt(size));
         return rolls.map(i => i + 1);
     }
 }
@@ -78,30 +81,30 @@ function isCprModel(model: FoundryModel): model is CprModel {
 
 interface CprModel extends FoundryModel {
     _stats: {
-        systemId: 'cyberpunk-red-core'
-    }
+        systemId: 'cyberpunk-red-core';
+    };
 }
 
 export enum CprStat {
-    INT = "int",
-    REF = "ref",
-    DEX = "dex",
-    TECH = "tech",
-    COOL = "cool",
-    WILL = "will",
-    LUCK = "luck",
-    MOVE = "move",
-    BODY = "body",
-    EMP = "emp",
+    INT = 'int',
+    REF = 'ref',
+    DEX = 'dex',
+    TECH = 'tech',
+    COOL = 'cool',
+    WILL = 'will',
+    LUCK = 'luck',
+    MOVE = 'move',
+    BODY = 'body',
+    EMP = 'emp',
 }
 
 export interface ICprSkill extends FoundryModel {
-    type: "skill",
+    type: 'skill';
     system: {
-        level: number,
-        stat: CprStat,
-        category: string
-    }
+        level: number;
+        stat: CprStat;
+        category: string;
+    };
 }
 
 export interface CprSkill extends ICprSkill {}
@@ -113,7 +116,7 @@ export class CprSkill implements ICprSkill, FoundryRollable {
         this.statValue = stat;
     }
 
-    public roll(modifiers: Record<string, number>) {
+    public roll(modifiers: Record<string, number>): Roll {
         const dice = Roll.rollDice(10);
         if (dice[0] === 1) {
             dice.push(-Roll.rollDice(10)[0]);
@@ -124,24 +127,24 @@ export class CprSkill implements ICprSkill, FoundryRollable {
         return new Roll(dice, { ...modifiers, 'skill base': base });
     }
 
-    static isSkill(item: FoundryModel): item is ICprSkill {
+    static isSkill(this: void, item: FoundryModel): item is ICprSkill {
         return isCprModel(item) && item.type === 'skill';
     }
 }
 
 export interface ICprWeapon extends FoundryModel {
-    type: "weapon",
+    type: 'weapon';
     system: {
         // TODO
-    }
+    };
 }
 
-type ICprItem = ICprSkill | ICprWeapon;
+// type ICprItem = ICprSkill | ICprWeapon;
 
 export interface ICprActor extends FoundryActor {
     system: {
-        stats: Record<CprStat, { value: number }>
-    },
+        stats: Record<CprStat, { value: number }>;
+    };
     items: FoundryModel[];
 }
 
@@ -153,12 +156,12 @@ enum CprActorType {
 export interface CprActor extends ICprActor {}
 export class CprActor {
     readonly skills: Map<string, CprSkill>;
+    readonly type: CprActorType;
 
     constructor(actor: FoundryActor) {
         Object.assign(this, actor);
         this.skills = createModelCollection(
-            this.items.filter(CprSkill.isSkill)
-                .map(item => this.createSkill(item))
+            this.items.filter(CprSkill.isSkill).map(item => this.createSkill(item))
         );
     }
 
@@ -171,12 +174,14 @@ export class CprActor {
         return new CprSkill(skill, stat);
     }
 
-    static isActor(model: FoundryModel): model is ICprActor {
-        return isCprModel(model) && Object.values(CprActorType).includes(model.type as CprActorType);
+    static isActor(this: void, model: FoundryModel): model is ICprActor {
+        return (
+            isCprModel(model) && Object.values(CprActorType).includes(model.type as CprActorType)
+        );
     }
 
-    static isCharacter(model: FoundryModel): model is ICprActor {
-        return isCprModel(model) && model.type === CprActorType.CHARACTER;
+    static isCharacter(this: void, model: FoundryModel): model is ICprActor {
+        return isCprModel(model) && (model.type as CprActorType) === CprActorType.CHARACTER;
     }
 }
 
@@ -213,7 +218,10 @@ export class FoundryService<A extends FoundryActor> {
         return await this.getImageUrl(model.thumbnail || model.img, 'icons/vtt-512.png');
     }
 
-    async getImageUrl(path: string | null | undefined, fallback?: string): Promise<string | undefined> {
+    async getImageUrl(
+        path: string | null | undefined,
+        fallback?: string
+    ): Promise<string | undefined> {
         if (!path) {
             return fallback ? this._config.baseUrl + fallback : undefined;
         }
@@ -223,7 +231,10 @@ export class FoundryService<A extends FoundryActor> {
                 if (!fsutils.existsSync(this._config.basePath + resultPath)) {
                     Logger.warn(`Attempting to convert ${path} to ${resultPath}...`);
                     const startTime = process.uptime();
-                    await convertSvg(this._config.basePath + path, this._config.basePath + resultPath);
+                    await convertSvg(
+                        this._config.basePath + path,
+                        this._config.basePath + resultPath
+                    );
                     Logger.warn(`Took ${process.uptime() - startTime} seconds to convert to PNG.`);
                 }
                 return this._config.baseUrl + resultPath;
@@ -252,8 +263,12 @@ export class FoundryService<A extends FoundryActor> {
     }
 
     private static async loadDatabase<M extends FoundryModel, T>(
-        filename: string, guard: (m: FoundryModel) => m is M,
-        constructor: new (m: M) => T, strict?: boolean): Promise<T[]> {
+        this: void,
+        filename: string,
+        guard: (m: FoundryModel) => m is M,
+        constructor: new (m: M) => T,
+        strict?: boolean
+    ): Promise<T[]> {
         const contents = await fs.readFile(filename, { encoding: 'utf-8' });
         const models: FoundryModel[] = contents
             .split('\n')
@@ -274,7 +289,12 @@ export class FoundryService<A extends FoundryActor> {
     }
 
     static loadCpr(config: FoundryConfig): FoundryService<CprActor> {
-        const loadActors = async () => FoundryService.loadDatabase(config.actors, CprActor.isActor, CprActor);
+        const loadActors = async (): Promise<CprActor[]> =>
+            await FoundryService.loadDatabase(
+                config.worldData + 'actors.db',
+                CprActor.isActor,
+                CprActor
+            );
         return new FoundryService<CprActor>(config, loadActors);
     }
 }

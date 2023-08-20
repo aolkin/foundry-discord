@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction, EmbedBuilder, PermissionsString } from 'di
 
 import { Language } from '../../models/enum-helpers/index.js';
 import { EventData } from '../../models/internal-models.js';
-import { foundryCpr } from '../../services/foundry-service.js'
+import { foundryCpr } from '../../services/foundry-service.js';
 import { Lang } from '../../services/index.js';
 import { InteractionUtils } from '../../utils/index.js';
 import { Command, CommandDeferType } from '../index.js';

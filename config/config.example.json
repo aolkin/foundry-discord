@@ -76,5 +76,10 @@
         "rateLimit": {
             "minTimeout": 30
         }
+    },
+    "foundry": {
+        "baseUrl": "https://public-foundry-url.com/",
+        "basePath": "/foundryvtt/data/Data/",
+        "worldData": "/foundryvtt/data/Data/worlds/cyberpunk/data/"
     }
 }

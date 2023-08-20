@@ -26,7 +26,7 @@
         "author": "https://github.com/aolkin/",
         "docs": "https://top.gg/",
         "donate": "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=EW389DYYSS4FC",
-        "invite": "https://discord.com/api/oauth2/authorize?client_id=1047017162184863824&permissions=274878171200&scope=bot%20applications.commands",
+        "invite": "https://discord.com/api/oauth2/authorize?client_id={{CLIENT_ID}}&permissions=274878171200&scope=bot%20applications.commands",
         "source": "https://github.com/aolkin/foundry-discord/",
         "stream": "https://www.twitch.tv/novakevin",
         "support": "https://support.discord.com/",

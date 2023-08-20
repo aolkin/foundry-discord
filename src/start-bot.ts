@@ -3,7 +3,12 @@ import { Options, Partials } from 'discord.js';
 import { createRequire } from 'node:module';
 
 import { Button } from './buttons/index.js';
-import { DevCommand, HelpCommand, ReloadCommand, SkillCheckCommand } from './commands/chat/index.js';
+import {
+    DevCommand,
+    HelpCommand,
+    ReloadCommand,
+    SkillCheckCommand,
+} from './commands/chat/index.js';
 import {
     ChatCommandMetadata,
     Command,

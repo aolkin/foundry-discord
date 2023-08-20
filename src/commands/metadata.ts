@@ -51,8 +51,10 @@ export const ChatCommandMetadata: {
         name_localizations: Lang.getRefLocalizationMap('chatCommands.reload'),
         description: Lang.getRef('commandDescs.reload', Language.Default),
         description_localizations: Lang.getRefLocalizationMap('commandDescs.reload'),
-        dm_permission: true,
-        default_member_permissions: undefined,
+        dm_permission: false,
+        default_member_permissions: PermissionsBitField.resolve([
+            PermissionFlagsBits.Administrator,
+        ]).toString(),
     },
     SKILL: {
         type: ApplicationCommandType.ChatInput,
@@ -65,14 +67,14 @@ export const ChatCommandMetadata: {
         options: [
             {
                 ...Args.CHARACTER_OPTION,
-                required: true
+                required: true,
             },
             {
                 ...Args.SKILL_OPTION,
-                required: true
+                required: true,
             },
-            Args.MODIFIER_OPTION
-        ]
+            Args.MODIFIER_OPTION,
+        ],
     },
 };
 
