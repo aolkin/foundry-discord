@@ -26,16 +26,16 @@ export class HelpCommand implements Command {
             }
             case HelpOption.COMMANDS: {
                 embed = Lang.getEmbed('displayEmbeds.helpCommands', data.lang, {
-                    CMD_LINK_TEST: FormatUtils.commandMention(
+                    CMD_LINK_SKILL: FormatUtils.commandMention(
                         await ClientUtils.findAppCommand(
                             intr.client,
-                            Lang.getRef('chatCommands.test', Language.Default)
+                            Lang.getRef('chatCommands.skill', Language.Default)
                         )
                     ),
-                    CMD_LINK_INFO: FormatUtils.commandMention(
+                    CMD_LINK_RELOAD: FormatUtils.commandMention(
                         await ClientUtils.findAppCommand(
                             intr.client,
-                            Lang.getRef('chatCommands.info', Language.Default)
+                            Lang.getRef('chatCommands.reload', Language.Default)
                         )
                     ),
                 });

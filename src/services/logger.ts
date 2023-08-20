@@ -37,6 +37,24 @@ export class Logger {
         obj ? logger.warn(obj, message) : logger.warn(message);
     }
 
+    public static errorSync(message: string, obj?: any): void {
+        if (!obj) {
+            logger.error(message);
+            return;
+        }
+
+        // Otherwise log details about the error
+        if (typeof obj === 'string') {
+            logger
+                .child({
+                    message: obj,
+                })
+                .error(message);
+        } else {
+            logger.error(obj, message);
+        }
+    }
+
     public static async error(message: string, obj?: any): Promise<void> {
         // Log just a message if no error object
         if (!obj) {

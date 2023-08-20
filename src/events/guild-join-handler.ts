@@ -9,6 +9,9 @@ import { ClientUtils, FormatUtils, MessageUtils } from '../utils/index.js';
 const require = createRequire(import.meta.url);
 const Logs = require('../../lang/logs.json');
 
+const NOTIFY_GUILD = false;
+const NOTIFY_OWNER = false;
+
 export class GuildJoinHandler implements EventHandler {
     constructor(private eventDataService: EventDataService) {}
 
@@ -29,7 +32,7 @@ export class GuildJoinHandler implements EventHandler {
 
         // Send welcome message to the server's notify channel
         const notifyChannel = await ClientUtils.findNotifyChannel(guild, data.langGuild);
-        if (notifyChannel) {
+        if (NOTIFY_GUILD && notifyChannel) {
             await MessageUtils.send(
                 notifyChannel,
                 Lang.getEmbed('displayEmbeds.welcome', data.langGuild, {
@@ -47,7 +50,7 @@ export class GuildJoinHandler implements EventHandler {
         }
 
         // Send welcome message to owner
-        if (owner) {
+        if (NOTIFY_OWNER && owner) {
             await MessageUtils.send(
                 owner.user,
                 Lang.getEmbed('displayEmbeds.welcome', data.lang, {

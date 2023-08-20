@@ -35,8 +35,8 @@
                         "value": [
                             "To see the available commands, just type `/` and select the bot from the left side. You can then scroll through all available commands. Some commands may be hidden if you don't have permission to view them.",
                             "",
-                            "{{CMD_LINK_TEST}} - {{REF:commandDescs.test}}",
-                            "{{CMD_LINK_INFO}} - {{REF:commandDescs.info}}"
+                            "{{CMD_LINK_SKILL}} - {{REF:commandDescs.skill}}",
+                            "{{CMD_LINK_RELOAD}} - {{REF:commandDescs.reload}}"
                         ]
                     },
                     {
@@ -51,8 +51,8 @@
                     }
                 ]
             },
-            "test": {
-                "description": "Test command works!"
+            "skill": {
+                "description": "Rolled a skill!"
             },
             "viewDateJoined": {
                 "description": "{{TARGET}} joined on {{DATE}}!"
@@ -83,9 +83,9 @@
                     }
                 ]
             },
-            "translate": {
-                "title": "{{COM:bot.name}} - Translations",
-                "description": "Thank you to our translators who have made it possible for {{COM:bot.name}} to be used in the following languages. If you are interested in providing a translation, please contact the staff in our [support server]({{COM:links.support}})."
+            "reloadComplete": {
+                "title": "{{COM:bot.name}} - Reload Complete",
+                "description": "Reloaded data from Foundry VTT databases."
             },
             "devInfo": {
                 "title": "{{COM:bot.name}} - Developer Info",
@@ -175,6 +175,14 @@
             "notImplemented": {
                 "description": "This feature has not been implemented yet!",
                 "color": "{{COM:colors.warning}}"
+            },
+            "characterNotFound": {
+                "description": "Character {{CHARACTER}} not found! Please use the auto-completion.",
+                "color": "{{COM:colors.error}}"
+            },
+            "skillNotFound": {
+                "description": "Skill {{SKILL}} for {{CHARACTER}} not found! Please use the auto-completion.",
+                "color": "{{COM:colors.error}}"
             }
         },
         "channelRegexes": {
@@ -191,8 +199,8 @@
         "chatCommands": {
             "dev": "dev",
             "help": "help",
-            "info": "info",
-            "test": "test"
+            "reload": "reload",
+            "skill": "skill"
         },
         "userCommands": {
             "viewDateJoined": "View Date Joined"
@@ -202,18 +210,23 @@
         },
         "arguments": {
             "command": "command",
-            "option": "option"
+            "option": "option",
+            "character": "character",
+            "skill": "skill",
+            "modifier": "modifier"
         },
         "commandDescs": {
             "dev": "Developer use only.",
             "help": "Find help or contact support.",
-            "info": "View bot info.",
-            "test": "Run the test command."
+            "reload": "Force reload Foundry data.",
+            "skill": "Roll a skill check."
         },
         "argDescs": {
             "devCommand": "Command.",
             "helpOption": "Option.",
-            "infoOption": "Option."
+            "characterOption": "Character to act as.",
+            "skillOption": "Skill to use.",
+            "modifierOption": "Extra modifier to apply."
         },
         "fields": {
             "commands": "Commands",
@@ -277,10 +290,6 @@
         "helpOptionDescs": {
             "contactSupport": "❓ {{REF:helpOptions.contactSupport}} ❓",
             "commands": "{{REF:helpOptions.commands}} -- What commands are there? How do I restrict who is allowed to use commands?"
-        },
-        "infoOptions": {
-            "about": "About",
-            "translate": "Translate"
         },
         "yesNo": {
             "yes": "Yes",
